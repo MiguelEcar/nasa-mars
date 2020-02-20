@@ -1,0 +1,16 @@
+{
+    "def_hello": "Hello, ",
+    "def_return": "Return",
+
+    "def_c": "Celsius",
+    "def_f": "Fahrenheit",
+
+    "def_average": "Average: ",
+    "def_minimum": "Minumum: ",
+    "def_maximum": "Maximum: ",
+
+    "def_first": "First: ",
+    "def_last": "Last: ",
+    
+    "": ""
+}

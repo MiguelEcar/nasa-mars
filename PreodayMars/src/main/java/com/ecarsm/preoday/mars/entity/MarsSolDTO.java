@@ -17,4 +17,7 @@ public class MarsSolDTO implements Serializable {
     private Integer sol;
 
     private Temperature average;
+
+    private MyDate dateLast;
+
 }

@@ -1,9 +1,9 @@
 package com.ecarsm.preoday.mars.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ecarsm.preoday.mars.converters.MyDateConverter;
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,13 +28,13 @@ public class MarsSol implements Serializable {
 
     @Column(name = "DATE_FIRST")
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", locale = "en-US", timezone = "UTC")
-    private Date dateFirst;
+    @Convert(converter = MyDateConverter.class)
+    private MyDate dateFirst;
 
     @Column(name = "DATE_LAST")
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", locale = "en-US", timezone = "UTC")
-    private Date dateLast;
+    @Convert(converter = MyDateConverter.class)
+    private MyDate dateLast;
 
     @Embedded
     private MarsSensor sensor;

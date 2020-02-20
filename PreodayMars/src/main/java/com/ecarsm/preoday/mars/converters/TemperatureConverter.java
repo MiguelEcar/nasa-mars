@@ -16,7 +16,7 @@ public class TemperatureConverter implements AttributeConverter<Temperature, Dou
         if (attribute == null) {
             return null;
         } else {
-            return attribute.getCelsius();
+            return new Double(attribute.getCelsius());
         }
 
     }

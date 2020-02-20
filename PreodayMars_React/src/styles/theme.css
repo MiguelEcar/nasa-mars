@@ -1,0 +1,15 @@
+
+body .wrapper {
+    height: calc(700px - 10px);
+}
+
+body .wrapper > .header {
+    height: 70px;
+    -webkit-box-shadow: 0px 2px 2px #d3d3d3;
+    -moz-box-shadow: 0px 2px 2px #d3d3d3;
+    box-shadow: 0px 2px 2px #d3d3d3;
+}
+
+body .wrapper > .content {
+    margin: 20px;
+}

@@ -3,6 +3,7 @@ package com.ecarsm.preoday.mars.service;
 import com.ecarsm.preoday.mars.entity.MarsSensor;
 import com.ecarsm.preoday.mars.entity.MarsSol;
 import com.ecarsm.preoday.mars.entity.MarsSolDTO;
+import com.ecarsm.preoday.mars.entity.MyDate;
 import com.ecarsm.preoday.mars.exception.MyException;
 import com.ecarsm.preoday.mars.repository.MarsSolRep;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,19 +24,16 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -129,37 +127,33 @@ public class MarsSolService {
         });
 
         for (String id : ids) {
-            try {
-                MarsSol sol = new MarsSol();
-                sol.setSol(Integer.parseInt(id));
 
-                JsonNode o = json.get(id);
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-                format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            MarsSol sol = new MarsSol();
+            sol.setSol(Integer.parseInt(id));
 
-                sol.setDateFirst(format.parse((String) o.get("First_UTC").asText()));
-                sol.setDateLast(format.parse((String) o.get("Last_UTC").asText()));
+            JsonNode o = json.get(id);
 
-                JsonNode at = o.get("AT");
+            sol.setDateFirst(new MyDate((String) o.get("First_UTC").asText()));
+            sol.setDateLast(new MyDate((String) o.get("Last_UTC").asText()));
 
-                Double av = (Double) at.get("av").asDouble();
-                Double mn = (Double) at.get("mn").asDouble();
-                Double mx = (Double) at.get("mx").asDouble();
+            JsonNode at = o.get("AT");
 
-                sol.setSensor(new MarsSensor(av, mn, mx));
-                sols.add(sol);
-                this.repository.save(sol);
-            } catch (ParseException ex) {
-                Logger.getLogger(MarsSolService.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Double av = (Double) at.get("av").asDouble();
+            Double mn = (Double) at.get("mn").asDouble();
+            Double mx = (Double) at.get("mx").asDouble();
+
+            sol.setSensor(new MarsSensor(av, mn, mx));
+            sols.add(sol);
+            this.repository.save(sol);
+
         }
         return sols;
     }
 
     public List<MarsSolDTO> all() {
         List<MarsSolDTO> list = new ArrayList<>();
-        this.repository.findAll().forEach(s -> {
-            list.add(new MarsSolDTO(s.getSol(), s.getSensor().getAverage()));
+        this.repository.findAll(Sort.by(Sort.Direction.DESC, "sol")).forEach(s -> {
+            list.add(new MarsSolDTO(s.getSol(), s.getSensor().getAverage(), s.getDateLast()));
         });
         return list;
     }
