@@ -26,11 +26,6 @@ public class LocalUserResource {
     @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public ResponseEntity<LocalUser> last(LocalUser user) throws MyException {
         
-        System.out.println(user);
-        System.out.println(user);
-        System.out.println(user);
-        System.out.println(user);
-        
         user = this.repository.save(user);
         user.setPassword(null);
         return ResponseEntity.ok(user);

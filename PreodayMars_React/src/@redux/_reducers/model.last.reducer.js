@@ -1,22 +1,22 @@
-import { userConstants } from '../model.user.constants';
+import { lastConstants } from '../model.last.constants';
 
-export function userReducer(state = {}, action) {
+export function lastReducer(state = {}, action) {
 
   switch (action.type) {
-    case userConstants.SAVE_REQUEST:
+    case lastConstants.LAST_REQUEST:
       state = {
         ...state,
         loading: true
       };
       break;
-    case userConstants.SAVE_SUCCESS:
+    case lastConstants.LAST_SUCCESS:
       state = {
         ...state,
-        user: action.user,
+        last: action.last,
         success: true
       };
       break;
-    case userConstants.SAVE_FAILURE:
+    case lastConstants.LAST_FAILURE:
       state = {
         ...state,
         error: action.error

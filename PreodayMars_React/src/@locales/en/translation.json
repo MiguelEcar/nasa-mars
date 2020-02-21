@@ -22,6 +22,8 @@
     "user_name": "Name",
     "user_email": "Email",
     "user_password": "Password",
+
+    "last_nasa_fetch": "Last Nasa Fetch: ",
     
     "": ""
 }

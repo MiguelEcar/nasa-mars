@@ -44,7 +44,7 @@ export function solReducer(state = {}, action) {
       break;
     ///////////////////////////////////////////
     default:
-      state = {}
+      return state;
   }
   return state;
 }

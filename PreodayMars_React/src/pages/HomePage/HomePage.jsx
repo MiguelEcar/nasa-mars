@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { solActions } from '@redux';
+import { lastActions } from '@redux';
 
 import { Carousel } from 'primereact/carousel';
 
@@ -20,6 +21,7 @@ class HomePage extends React.Component {
     /////////////////////////////////////////////////////////////////////////////////
     async componentDidMount() {
         await this.props.getAll();
+        await this.props.getLast();
     }
     /////////////////////////////////////////////////////////////////////////////////
 
@@ -55,11 +57,19 @@ class HomePage extends React.Component {
         const { solReducer } = this.props;
         const { list } = solReducer;
 
+        console.log(this.props)
+        console.log(this.props.lastReducer)
+
         return (
             <>
                 {solReducer.error && <i className='badge badge-danger'>{t('access_server_error')}</i>}
                 {list &&
                     <Container>
+                        {this.props.lastReducer.last &&
+                            <Row>
+                                <i className='badge badge-default'>{t('last_nasa_fetch') + this.props.lastReducer.last.date.complete}</i>
+                            </Row>
+                        }
                         <Row>
                             <label>{t('def_last')}</label>
                             <Col md="auto">
@@ -84,11 +94,11 @@ class HomePage extends React.Component {
 
 /////////////////////////////////////////////////////////////////////////////////
 export function mapStateToProps(state) {
-    const { authReducer, solReducer } = state;
-    return { authReducer, solReducer };
+    const { authReducer, solReducer, lastReducer } = state;
+    return { authReducer, solReducer, lastReducer };
 }
 
-export const mapDispatchToProps = { ...solActions }
+export const mapDispatchToProps = { ...solActions, ...lastActions }
 /////////////////////////////////////////////////////////////////////////////////
 
 const connectedHomePage = connect(mapStateToProps, mapDispatchToProps);

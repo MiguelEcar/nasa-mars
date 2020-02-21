@@ -30,14 +30,21 @@ class Header extends React.Component {
   /////////////////////////////////////////////////////////////////////////////////
 
   /////////////////////////////////////////////////////////////////////////////////
-  onLogin = async (fields, login) => {
-    await login(fields);
-    history.push("/");
+  onLogin = (fields, login) => {
+    login(fields).then(
+      history.push("/")
+    )
+
+  }
+  onLogout = async (logout) => {
+    await logout();
+    await history.push("/");
   }
 
-  onSave = async (fields, save, login) => {
-    await save(fields);
-    await this.onLogin(fields, login);
+  onSave = (fields, save, login) => {
+    save(fields).then(
+      this.onLogin(fields, login)
+    )
   }
   /////////////////////////////////////////////////////////////////////////////////
 
@@ -46,7 +53,7 @@ class Header extends React.Component {
     const { t } = this.props;
 
     const { handleSubmit } = this.props;
-    const { save, login } = this.props;
+    const { save, login, logout } = this.props;
 
     return (
       <>
@@ -56,7 +63,7 @@ class Header extends React.Component {
               <Row>
                 <Col md="auto">
                   <i>{t('def_hello') + this.token().user.name}</i>
-                  <p onClick={() => this.props.logout()}
+                  <p onClick={() => this.onLogout(logout)}
                     style={{ cursor: 'pointer' }} >
                     {t('def_signout')}
                   </p>
@@ -89,7 +96,7 @@ class Header extends React.Component {
                       />
                     </Col>
                     <Col md="auto">
-                      <button type='submit'>{t('def_signin')}</button>
+                      <Btn type='submit'>{t('def_signin')}</Btn>
                     </Col>
                   </Row>
                 </form>
@@ -160,15 +167,15 @@ class Header extends React.Component {
 
 /////////////////////////////////////////////////////////////////////////////////
 export function mapStateToProps(state) {
-  const { authReducer } = state;
-  return { authReducer };
+  const { authReducer, lastReducer } = state;
+  return { authReducer, lastReducer };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     login: (data) => { return authActions.login(data)(dispatch) },
     logout: () => { return authActions.logout()(dispatch) },
-    save: (data) => { return userActions.save(data)(dispatch) }
+    save: (data) => { return userActions.save(data)(dispatch) },
   }
 };
 /////////////////////////////////////////////////////////////////////////////////

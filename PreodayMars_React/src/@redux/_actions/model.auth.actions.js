@@ -19,7 +19,7 @@ function login(data) {
     return dispatch => {
         dispatch(request({ user: data.email }));
 
-        httpAuthService.login(path, data)
+        return httpAuthService.login(path, data)
             .then(
                 user => {
                     dispatch(success(user.access_token));

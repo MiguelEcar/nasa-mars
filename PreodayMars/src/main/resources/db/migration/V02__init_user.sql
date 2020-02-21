@@ -7,5 +7,5 @@ CREATE TABLE local_user
   password character varying(255) NOT NULL,
 
   PRIMARY KEY (id),
-  UNIQUE KEY uk_local_user_email UNIQUE (email)
+  UNIQUE KEY local_user_email_UNIQUE UNIQUE (email)
 );

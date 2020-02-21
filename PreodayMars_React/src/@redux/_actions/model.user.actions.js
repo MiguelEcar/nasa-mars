@@ -16,7 +16,7 @@ function save(user) {
     return dispatch => {
         dispatch(request());
 
-        httpService.post(path, user)
+        return httpService.post(path, user)
             .then(
                 user => {
                     dispatch(success(user));
