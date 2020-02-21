@@ -27,14 +27,14 @@ public class LocalUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private Long id;
+    private Integer id;
 
-    @Column(name = "NAME")
+    @Column(name = "USER_NAME")
     @NotNull
     @Size(max = 100)
     private String name;
 
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", unique = true)
     @NotNull
     @Size(max = 100)
     private String email;

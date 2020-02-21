@@ -23,7 +23,7 @@ import lombok.experimental.FieldNameConstants;
 public class MarsSol implements Serializable {
 
     @Id
-    @Column(name = "SOL")
+    @Column(name = "SOL", unique = true)
     private Integer sol;
 
     @Column(name = "DATE_FIRST")

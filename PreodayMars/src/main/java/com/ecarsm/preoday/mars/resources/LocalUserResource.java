@@ -24,7 +24,7 @@ public class LocalUserResource {
     private LocalUserRep repository;
 
     @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public ResponseEntity<LocalUser> last(LocalUser user) throws MyException {
+    public ResponseEntity<LocalUser> create(LocalUser user) throws MyException {
         
         user = this.repository.save(user);
         user.setPassword(null);

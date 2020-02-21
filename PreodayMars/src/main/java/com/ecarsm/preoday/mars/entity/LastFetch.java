@@ -27,7 +27,7 @@ public class LastFetch implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private Long id;
+    private Integer id;
 
     @Column(name = "FETCH_DATE")
     @NotNull

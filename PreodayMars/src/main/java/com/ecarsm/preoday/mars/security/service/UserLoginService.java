@@ -23,12 +23,12 @@ public class UserLoginService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<LocalUser> usuarioOptional = getUserRep().email(email);
-        LocalUser usuario = usuarioOptional.orElseThrow(() -> new UsernameNotFoundException("User or password are incorrect"));
+        Optional<LocalUser> user = getUserRep().email(email);
+        LocalUser localUser = user.orElseThrow(() -> new UsernameNotFoundException("User or password are incorrect"));
 
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("ADMIN"));
 
-        return new UserLogin(usuario, authorities);
+        return new UserLogin(localUser, authorities);
     }
 }

@@ -1,15 +1,13 @@
 package com.ecarsm.preoday.mars.service;
 
-import com.ecarsm.preoday.mars.entity.MarsSensor;
+import com.ecarsm.preoday.mars.deserialization.MarsSolDeserialization;
 import com.ecarsm.preoday.mars.entity.MarsSol;
 import com.ecarsm.preoday.mars.entity.MarsSolDTO;
-import com.ecarsm.preoday.mars.entity.MyDate;
 import com.ecarsm.preoday.mars.exception.MyException;
 import com.ecarsm.preoday.mars.repository.MarsSolRep;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +31,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -103,8 +100,10 @@ public class MarsSolService {
     }
     //</editor-fold>
 
-    @Scheduled(fixedRate = 3600000)
-    public List<MarsSol> fetch() {
+    /**
+     * Fetch data from Nasa api
+     */
+    public void fetch() {
         try {
             String response = new RestTemplate().getForObject(this.url + this.key + this.params, String.class);
 
@@ -112,49 +111,22 @@ public class MarsSolService {
 
             JsonNode jsonNode = new ObjectMapper().readTree(response);
 
-            return entities(jsonNode);
+            MarsSolDeserialization deserialization = new MarsSolDeserialization();
+
+            saveSols(deserialization.deserialize(jsonNode));
+
         } catch (JsonProcessingException ex) {
             Logger.getLogger(MarsSolService.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(MarsSolService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
     }
 
-    private List<MarsSol> entities(JsonNode json) {
-
-        List<MarsSol> sols = new ArrayList<>();
-
-        List<String> ids = new ArrayList<>();
-
-        ((ArrayNode) json.get("sol_keys")).elements().forEachRemaining(s -> {
-            ids.add(s.asText());
-        });
-
-        for (String id : ids) {
-
-            MarsSol sol = new MarsSol();
-            sol.setSol(Integer.parseInt(id));
-
-            JsonNode o = json.get(id);
-
-            sol.setDateFirst(new MyDate((String) o.get("First_UTC").asText()));
-            sol.setDateLast(new MyDate((String) o.get("Last_UTC").asText()));
-
-            JsonNode at = o.get("AT");
-
-            Double av = (Double) at.get("av").asDouble();
-            Double mn = (Double) at.get("mn").asDouble();
-            Double mx = (Double) at.get("mx").asDouble();
-
-            sol.setSensor(new MarsSensor(av, mn, mx));
-            sols.add(sol);
-            this.repository.save(sol);
-
-        }
-        return sols;
-    }
-
+    /**
+     * Returns the list of Sols saved on database
+     *
+     * @return
+     */
     public List<MarsSolDTO> all() {
         List<MarsSolDTO> list = new ArrayList<>();
         this.repository.findAll(Sort.by(Sort.Direction.DESC, "sol")).forEach(s -> {
@@ -163,13 +135,30 @@ public class MarsSolService {
         return list;
     }
 
+    /**
+     * Returns the Sol details
+     *
+     * @param Sol id
+     * @return Detailed Sol
+     * @throws MyException
+     */
     public MarsSol bySol(Integer sol) throws MyException {
         try {
             return this.repository.getOne(sol);
+
         } catch (Exception ex) {
-            Logger.getLogger(MarsSolService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MarsSolService.class
+                    .getName()).log(Level.SEVERE, null, ex);
             throw new MyException(this.messages.getMessage("msg.sol.not.found", null, LocaleContextHolder.getLocale()));
         }
     }
 
+    /**
+     * Saves the Mars Sols after deserialization
+     *
+     * @param json
+     */
+    private void saveSols(List<MarsSol> sols) {
+        this.repository.saveAll(sols);
+    }
 }

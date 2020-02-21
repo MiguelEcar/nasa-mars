@@ -72,10 +72,10 @@
         </dependency>
         <!--%%%%%%%%%%%%%%%%%%%%%%% LOMBOK %%%%%%%%%%%%%%%%%%%%%%%-->
         <!--%%%%%%%%%%%%%%%%%%%%%%% FLYWAY %%%%%%%%%%%%%%%%%%%%%%%-->
-        <!--        <dependency>
+        <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-        </dependency>-->
+        </dependency>
         <!--%%%%%%%%%%%%%%%%%%%%%%% FLYWAY %%%%%%%%%%%%%%%%%%%%%%%-->
         <!--%%%%%%%%%%%%%%%%%%%%%%% H2 %%%%%%%%%%%%%%%%%%%%%%%-->
         <dependency>

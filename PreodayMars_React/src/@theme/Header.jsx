@@ -39,12 +39,11 @@ class Header extends React.Component {
   onLogout = async (logout) => {
     await logout();
     await history.push("/");
+    await this.props.init();
   }
 
   onSave = (fields, save, login) => {
-    save(fields).then(
-      this.onLogin(fields, login)
-    )
+    save(fields);
   }
   /////////////////////////////////////////////////////////////////////////////////
 
@@ -103,11 +102,13 @@ class Header extends React.Component {
                 {/* ///////////////////////////////////////////////////////////////////////////////// */}
 
                 <Col md="auto" style={{ float: 'right', cursor: 'pointer' }}>
-                  <i onClick={(e) => this.op.toggle(e)}>{t('def_signup')}</i>
+                  <i onClick={(e) => {this.op.toggle(e);  this.props.init();}}>{t('def_signup')}</i>
                 </Col>
 
                 {/* ///////////////////////////////////////////////////////////////////////////////// */}
                 <OverlayPanel ref={(el) => this.op = el}>
+                  {this.props.userReducer.success && <i className='badge badge-success' >{t('user_success')}</i>}
+                  {this.props.userReducer.error && <i className='badge badge-danger' >{t('user_fail')}</i>}
                   <form onSubmit={handleSubmit((fields) => this.onSave(fields, save, login))}>
                     <Row>
                       <Col md="auto">
@@ -167,8 +168,8 @@ class Header extends React.Component {
 
 /////////////////////////////////////////////////////////////////////////////////
 export function mapStateToProps(state) {
-  const { authReducer, lastReducer } = state;
-  return { authReducer, lastReducer };
+  const { authReducer, lastReducer, userReducer } = state;
+  return { authReducer, lastReducer, userReducer };
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -176,6 +177,7 @@ const mapDispatchToProps = (dispatch) => {
     login: (data) => { return authActions.login(data)(dispatch) },
     logout: () => { return authActions.logout()(dispatch) },
     save: (data) => { return userActions.save(data)(dispatch) },
+    init: () => { return userActions.init()(dispatch) },
   }
 };
 /////////////////////////////////////////////////////////////////////////////////

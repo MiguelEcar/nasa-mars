@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Ecar. S. M.
  */
 @RestController
-@RequestMapping("nasa")
+@RequestMapping("mars")
 @Getter
 public class MarsSolResource {
 

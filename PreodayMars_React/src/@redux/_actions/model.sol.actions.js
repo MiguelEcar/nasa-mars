@@ -9,7 +9,7 @@ export const solActions = {
 
 let path = {
     base: PATH,
-    path: 'nasa'
+    path: 'mars'
 }
 
 function getAll() {
