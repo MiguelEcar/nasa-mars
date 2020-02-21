@@ -9,10 +9,19 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
-public abstract class CorsFilter implements Filter {
+@Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
+@Getter
+public class CorsFilter implements Filter {
 
-    protected abstract String origin();
+    @Value("${cors.origin}")
+    private String origin;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -21,11 +30,11 @@ public abstract class CorsFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        resp.setHeader("Access-Control-Allow-Origin", origin());
+        resp.setHeader("Access-Control-Allow-Origin", this.origin);
         resp.setHeader("Access-Control-Allow-Credentials", "true");
 
         if ("OPTIONS".equals(req.getMethod())
-                && origin().equals(req.getHeader("Origin"))) {
+                && this.origin.equals(req.getHeader("Origin"))) {
 
             resp.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
             resp.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, TenantID");

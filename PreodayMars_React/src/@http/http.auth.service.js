@@ -33,16 +33,16 @@ function req(path, headers, body) {
     });
 };
 
-function login(path, email, password) {
+function login(path, fields) {
 
     const headers = {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-        'Authorization': 'Basic cmVhcjpAbWlndWVsMjI='
+        'Authorization': 'Basic cmVhY3QtY2xpOkBwcmVvZGF5LW1hcnM='
     };
     const body = {
-        client: 'rear',
-        username: email,
-        password: password,
+        client: 'react-cli',
+        username: fields.email,
+        password: fields.password,
         grant_type: 'password',
     }
 
@@ -50,7 +50,7 @@ function login(path, email, password) {
     var data = req(path, headers, body)
         .then(handleResponse)
         .then(data => {
-            localStorage.setItem('token', data.access_token);
+            localStorage.setItem('mars-token', data.access_token);
             return data;
         });
     return data;
@@ -58,25 +58,30 @@ function login(path, email, password) {
 
 async function tokenByRefresh(path) {
 
-    const headers = {
-        'Authorization': 'Basic cmVhcjpAbWlndWVsMjI=',
-        'Content-Type': 'application/x-www-form-urlencoded',
-    };
-    const body = {
-        client: 'rear',
-        grant_type: 'refresh_token'
+    let user = localStorage.getItem('mars-token');
+
+    if (user) {
+        const headers = {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic cmVhY3QtY2xpOkBwcmVvZGF5LW1hcnM=',
+        };
+        const body = {
+            client: 'react-cli',
+            grant_type: 'refresh_token'
+        }
+
+        const response = await req(path, headers, body);
+        localStorage.setItem('mars-token', response.data.access_token);
+
+        return response;
     }
 
-    const response = await req(path, headers, body);
-    localStorage.setItem('token', response.data.access_token);
-
-    return response;
 };
 
 
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('token');
+    localStorage.removeItem('mars-token');
 }
 
 function handleResponse(response) {

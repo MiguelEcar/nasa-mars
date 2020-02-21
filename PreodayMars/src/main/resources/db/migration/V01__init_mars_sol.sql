@@ -8,5 +8,13 @@ CREATE TABLE mars_sol
   minimum number(10,3) NOT NULL,
   maximum number(10,3) NOT NULL,
 
-  CONSTRAINT mars_sol_pkey PRIMARY KEY (sol)
+  PRIMARY KEY (sol)
+);
+
+CREATE TABLE last_fetch
+(
+  id integer auto_increment NOT NULL,
+  fetch_date timestamp without time zone NOT NULL,
+
+  PRIMARY KEY (id)
 );

@@ -1,4 +1,5 @@
 import axios from "axios";
+import qs from 'qs'
 
 import { httpAuthService } from './';
 
@@ -7,12 +8,20 @@ export const httpService = {
     get
 };
 
-function post(path, body) {
-    return req('post', path, body)
-        .then(handleResponse)
-        .then(data => {
-            return data;
-        });
+function post(path, fields) {
+
+    const body = {
+        name: fields.name,
+        email: fields.email,
+        password: fields.password,
+    }
+
+    return axios({
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
+        method: 'post',
+        url: path.base + path.path,
+        data: qs.stringify(body)
+    });
 }
 
 function get(path) {
@@ -24,8 +33,8 @@ function get(path) {
 }
 
 function req(method, path, data) {
-    // var res = httpAuthService.tokenByRefresh(path).then(response => {
-    //     httpAuthService.addTokenHeader(response.data.access_token);
+    var res = httpAuthService.tokenByRefresh(path).then(response => {
+        httpAuthService.addTokenHeader(response.data.access_token);
 
         let url = path.args === undefined ? path.base + path.path : path.base + path.path + path.args;
         return axios({
@@ -33,8 +42,8 @@ function req(method, path, data) {
             url: url,
             data: data
         });
-    // });
-    // return res;
+    });
+    return res;
 }
 
 function handleResponse(response) {

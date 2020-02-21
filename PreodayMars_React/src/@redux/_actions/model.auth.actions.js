@@ -1,17 +1,25 @@
-import { authConstants } from '@redux';
-import { httpService } from '@http';
+import { authConstants } from '../model.auth.constants';
+import { httpAuthService } from '@http';
 import { history } from '@theme';
+import { PATH } from '@http';
 
 export const authActions = {
     login,
     logout
 };
 
-function login(path, username, password) {
-    return dispatch => {
-        dispatch(request({ username }));
 
-        httpService.login(path, username, password)
+let path = {
+    base: PATH,
+    path: ''
+}
+
+function login(data) {
+
+    return dispatch => {
+        dispatch(request({ user: data.email }));
+
+        httpAuthService.login(path, data)
             .then(
                 user => {
                     dispatch(success(user.access_token));
@@ -19,7 +27,6 @@ function login(path, username, password) {
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    // dispatch(alertActions.error(error.toString()));
                 }
             );
     };
@@ -30,6 +37,10 @@ function login(path, username, password) {
 }
 
 function logout() {
-    httpService.logout();
-    return { type: authConstants.LOGOUT };
+    return dispatch => {
+        httpAuthService.logout();
+        dispatch(request());
+    }
+
+    function request() { return { type: authConstants.LOGOUT } }
 }

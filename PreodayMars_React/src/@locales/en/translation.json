@@ -1,6 +1,9 @@
 {
     "def_hello": "Hello, ",
     "def_return": "Return",
+    "def_signup": "Sign Up",
+    "def_signin": "Sign In",
+    "def_signout": "Sign Out",
 
     "def_c": "Celsius",
     "def_f": "Fahrenheit",
@@ -11,6 +14,14 @@
 
     "def_first": "First: ",
     "def_last": "Last: ",
+
+    "def_history": "History: ",
+
+    "access_server_error": "Error in server access! =( ",
+
+    "user_name": "Name",
+    "user_email": "Email",
+    "user_password": "Password",
     
     "": ""
 }

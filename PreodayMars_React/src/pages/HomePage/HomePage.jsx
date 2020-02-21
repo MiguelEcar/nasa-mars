@@ -25,9 +25,6 @@ class HomePage extends React.Component {
 
     /////////////////////////////////////////////////////////////////////////////////
     onClick = async (sol) => {
-        console.log(sol);
-        console.log(sol);
-        console.log(sol);
         await this.props.getById(sol.sol);
         history.push("/details");
     }
@@ -55,21 +52,23 @@ class HomePage extends React.Component {
     /////////////////////////////////////////////////////////////////////////////////
     render() {
         const { t } = this.props;
-        const { list } = this.props.solReducer;
+        const { solReducer } = this.props;
+        const { list } = solReducer;
 
         return (
             <>
-                <i>{t('def_hello')}</i>
-
+                {solReducer.error && <i className='badge badge-danger'>{t('access_server_error')}</i>}
                 {list &&
                     <Container>
                         <Row>
+                            <label>{t('def_last')}</label>
                             <Col md="auto">
                                 {this.card(t, list[0])}
                             </Col>
                         </Row>
                         <hr />
                         <Row>
+                            <label>{t('def_history')}</label>
                             <Col>
                                 <Carousel value={list} numVisible={5} numScroll={1}
                                     itemTemplate={(sol) => this.card(t, sol)}

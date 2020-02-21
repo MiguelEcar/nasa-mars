@@ -1,11 +1,11 @@
 import React from 'react';
-import { Router, Route, Switch, Redirect } from 'react-router-dom';
+import { Router, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { Theme } from '@theme';
 import { history } from '@theme';
+import { PrivateRoute } from '@theme';
 
-// import {LoginPage} from './pages/LoginPage';
 import { HomePage } from './pages/HomePage';
 import { SolPage } from './pages/SolPage';
 
@@ -27,10 +27,9 @@ class App extends React.Component {
         <Router history={history}>
 
           <Switch>
-            {/* <Route path="/login" component={LoginPage} /> */}
             <Theme>
-              <Route exact path="/" component={HomePage} />
-              <Route path="/details" component={SolPage} />
+              <PrivateRoute exact path="/" component={HomePage} />
+              <PrivateRoute path="/details" component={SolPage} />
               <Redirect from="*" to="/" />
             </Theme>
           </Switch>

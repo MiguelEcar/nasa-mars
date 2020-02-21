@@ -24,7 +24,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -56,6 +55,9 @@ public class MarsSolService {
 
     @Autowired
     private MarsSolRep repository;
+
+    @Autowired
+    private LastFetchService lastFetchService;
 
     @Autowired
     private MessageSource messages;
@@ -103,14 +105,17 @@ public class MarsSolService {
 
     @Scheduled(fixedRate = 3600000)
     public List<MarsSol> fetch() {
-        System.out.println("Fetch Nasa Api [" + LocalDateTime.now() + "]");
         try {
             String response = new RestTemplate().getForObject(this.url + this.key + this.params, String.class);
+
+            this.lastFetchService.updateLast();
 
             JsonNode jsonNode = new ObjectMapper().readTree(response);
 
             return entities(jsonNode);
         } catch (JsonProcessingException ex) {
+            Logger.getLogger(MarsSolService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(MarsSolService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;

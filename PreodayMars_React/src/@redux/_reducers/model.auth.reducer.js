@@ -1,6 +1,9 @@
 import { authConstants } from '../model.auth.constants';
 
-export function authReducer(state = {}, action) {
+let user = localStorage.getItem('mars-token');
+const initialState = user ? { loggedIn: true, user } : {};
+
+export function authReducer(state = initialState, action) {
 
   switch (action.type) {
     ///////////////////////////////////////////

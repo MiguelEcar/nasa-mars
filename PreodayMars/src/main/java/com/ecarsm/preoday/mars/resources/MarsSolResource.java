@@ -25,13 +25,6 @@ public class MarsSolResource {
     @Autowired
     private MarsSolService service;
 
-    @GetMapping("fetch")
-    public ResponseEntity<List<MarsSol>> fetch() throws MyException {
-
-        List<MarsSol> resp = this.service.fetch();
-        return resp != null ? ResponseEntity.ok(resp) : ResponseEntity.noContent().build();
-    }
-
     @GetMapping("all")
     public ResponseEntity<List<MarsSolDTO>> all() throws MyException {
 

@@ -1,4 +1,4 @@
-import { solConstants } from '@redux';
+import { solConstants } from '../model.sol.constants';
 import { httpService } from '@http';
 import { PATH } from '@http';
 
