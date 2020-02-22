@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "c0445289-0859-4ee2-9929-133a2ce9592f",
+		"name": "Preoday Mars",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "New User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "John Doe",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "doe@email.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "doe123",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8081/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Token",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "@preoday-mars",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "react-cli",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client",
+							"value": "react-cli",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "doe@email.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "doe123",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8081/oauth/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All SOLs",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/mars/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"mars",
+						"all"
+					]
+				},
+				"description": "Remember to place the Bearer Token"
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Sol",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/mars?sol=439",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"mars"
+					],
+					"query": [
+						{
+							"key": "sol",
+							"value": "439"
+						}
+					]
+				},
+				"description": "Remember to place the Bearer Token"
+			},
+			"response": []
+		},
+		{
+			"name": "Last Nasa Fetch",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/last",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"last"
+					]
+				},
+				"description": "Remember to place the Bearer Token"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

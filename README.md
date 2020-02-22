@@ -27,6 +27,8 @@ If changing the Databse, Flyway migrations should be adjusted.
 
 Successful request examples.
 
+A Postman test collection may be found at [Postman requests](/Preoday Mars.postman_collection.json).
+
 Successful request example for `/mars/all`:
 ```json
 [
@@ -101,7 +103,7 @@ First things first:
 - Make sure to install the [`SSL` certification](/PreodayMars/src/main/resources/trust/mars-demo.cer) in your Java environment [Import the Certificate as a Trusted Certificate](https://docs.oracle.com/javase/tutorial/security/toolsign/rstep2.html)
 - Make sure `Node.js` and `Yarn` are installed and environment variables correctly set.
 
-After cloning the repository:
+After cloning, or download and extract the repository:
 
 ### Spring Boot API
 
@@ -133,5 +135,6 @@ On Linux,
 
 Other configuration may be change in the [`application.properties`](/PreodayMars/src/main/resources/application.properties).
 
-**Attention
+#### **Attention
+
 If changing the client side app port, remember to change the `cors.origin` in [`application.properties`](/PreodayMars/src/main/resources/application.properties).
