@@ -27,7 +27,7 @@ If changing the Databse, Flyway migrations should be adjusted.
 
 Successful request examples.
 
-A Postman test collection may be found at [Postman requests](/Preoday Mars.postman_collection.json).
+A Postman test collection may be found at [Postman requests](/PreodayMars.postman_collection.json).
 
 Successful request example for `/mars/all`:
 ```json
