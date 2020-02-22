@@ -25,9 +25,12 @@ public class LocalUserResource {
 
     @PostMapping(consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public ResponseEntity<LocalUser> create(LocalUser user) throws MyException {
-        
-        user = this.repository.save(user);
-        user.setPassword(null);
-        return ResponseEntity.ok(user);
+        try {
+            user = this.repository.save(user);
+            user.setPassword(null);
+            return ResponseEntity.ok(user);
+        } catch (Exception ex) {
+            throw new MyException("msg.user.registerd");
+        }
     }
 }

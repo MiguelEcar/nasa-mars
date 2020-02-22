@@ -5,8 +5,6 @@ import com.ecarsm.preoday.mars.exception.MyException;
 import com.ecarsm.preoday.mars.repository.LastFetchRep;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +18,12 @@ public class LastFetchService {
     @Autowired
     private LastFetchRep repository;
 
-    @Autowired
-    private MessageSource messages;
-
     public LastFetch last() throws MyException {
         try {
             List<LastFetch> list = this.repository.findAll(Sort.by(Sort.Direction.DESC, "id"));
             return list.get(0);
         } catch (Exception ex) {
-            throw new MyException(this.messages.getMessage("msg.not.fetch", null, LocaleContextHolder.getLocale()));
+            throw new MyException("msg.not.fetch");
         }
     }
 

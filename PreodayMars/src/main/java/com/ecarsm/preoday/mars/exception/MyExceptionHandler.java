@@ -9,21 +9,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
  *
  * @author Ecar. S. M.
  */
 @ControllerAdvice
-public class MyExceptionHandler {
+public class MyExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Autowired
-    private MessageSource messages;
+    private MessageSource messageSource;
 
     @ExceptionHandler(MyException.class)
     protected ResponseEntity<MyExceptionReturn> handleResourceGeneric(MyException ex, WebRequest request) {
-
-        String userMsg = this.messages.getMessage(ex.getMessage(), null, LocaleContextHolder.getLocale());
+        String userMsg = this.messageSource.getMessage(ex.getMessage(), null, LocaleContextHolder.getLocale());
         String devMsg = ExceptionUtils.getRootCauseMessage(ex);
 
         return ResponseEntity
