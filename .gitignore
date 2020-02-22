@@ -1,6 +1,9 @@
-### NetBeans ###
+### Java ###
 /PreodayMars/target/
 /PreodayMars/nbproject/private/
+/PreodayMars/nbactions
+
 
 ### ReactJS ###
 /PreodayMars_React/node_modules/
+

@@ -96,14 +96,36 @@ Successful request example for `/last`:
 ## Running
 
 First things first:
-- Make sure that `Java` environment variable is correctly set.
-- Make sure that `Maven` environment variable is correctly set.
+- Make sure `Java` environment variable is correctly set.
+- Make sure `Maven` environment variable is correctly set.
 - Make sure to install the [`SSL` certification](/PreodayMars/src/main/resources/trust/mars-demo.cer) in your Java environment [Import the Certificate as a Trusted Certificate](https://docs.oracle.com/javase/tutorial/security/toolsign/rstep2.html)
-
+- Make sure `Node.js` and `Yarn` are installed and environment variables correctly set.
 
 After cloning the repository:
 
-...
+### Spring Boot API
+
+In the root folder of Spring Boot project,
+
+On Windows,
+
+```ps
+    .\mvnw spring-boot:run
+```
+
+On Linux,
+
+```sh
+    sudo chmod +x ./mvnw
+    sudo ./mvnw spring-boot:run
+```
+### ReactJS Client
+
+```ps
+    yarn install
+    yarn start
+```
+
 
 ### Application defaults
 
