@@ -11,7 +11,7 @@ The information is stored in a Database, in order to avoid extra data consuming,
 The application is secured based on OAuth2 protocol, in order to ensure a minimum data protection.
 Thus, the application user should register and sign in into the application to consult the stored information.
 
-For testing purposes it used H2 Database, which may be easily replaced for production uses.
+For testing purposes, it uses H2 Database, which may be easily replaced for production uses.
 If changing the Databse, Flyway migrations should be adjusted.
 
 ## Endpoints
@@ -96,10 +96,13 @@ Successful request example for `/last`:
 ## Running
 
 First things first:
-- Make sure that `JAVA_HOME` environment variable is set correctly.
+- Make sure that `Java` environment variable is correctly set.
+- Make sure that `Maven` environment variable is correctly set.
 - Make sure to install the [`SSL` certification](/PreodayMars/src/main/resources/trust/mars-demo.cer) in your Java environment [Import the Certificate as a Trusted Certificate](https://docs.oracle.com/javase/tutorial/security/toolsign/rstep2.html)
 
+
 After cloning the repository:
+
 ...
 
 ### Application defaults
@@ -107,3 +110,6 @@ After cloning the repository:
 - By default the application API runs on port `8081` and client side app runs on port `3000`
 
 Other configuration may be change in the [`application.properties`](/PreodayMars/src/main/resources/application.properties).
+
+**Attention
+If changing the client side app port, remember to change the `cors.origin` in [`application.properties`](/PreodayMars/src/main/resources/application.properties).
