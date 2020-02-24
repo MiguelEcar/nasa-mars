@@ -35,12 +35,7 @@ public class MarsSolResource {
 
     @GetMapping()
     public ResponseEntity<MarsSol> bySol(@RequestParam(name = "sol") Integer sol) throws MyException {
-        try {
-            MarsSol resp = this.service.bySol(sol);
-            return ResponseEntity.ok(resp);
-        } catch (Exception ex) {
-            throw new MyException("msg.sol.not.found");
-        }
-
+        MarsSol resp = this.service.bySol(sol);
+        return ResponseEntity.ok(resp);
     }
 }

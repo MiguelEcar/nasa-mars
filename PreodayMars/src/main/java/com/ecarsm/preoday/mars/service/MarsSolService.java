@@ -3,6 +3,7 @@ package com.ecarsm.preoday.mars.service;
 import com.ecarsm.preoday.mars.deserialization.MarsSolDeserialization;
 import com.ecarsm.preoday.mars.entity.MarsSol;
 import com.ecarsm.preoday.mars.entity.MarsSolDTO;
+import com.ecarsm.preoday.mars.exception.MyException;
 import com.ecarsm.preoday.mars.repository.MarsSolRep;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -10,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,8 +84,13 @@ public class MarsSolService {
      * @param id
      * @return Detailed Sol
      */
-    public MarsSol bySol(Integer id) {
-        return this.repository.getOne(id);
+    public MarsSol bySol(Integer id) throws MyException {
+         try {
+            Optional resp = this.repository.findById(id);
+            return (MarsSol) resp.get();
+        } catch (NoSuchElementException ex) {
+            throw new MyException("msg.sol.not.found");
+        }
     }
 
     /**
